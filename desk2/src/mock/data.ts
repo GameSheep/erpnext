@@ -1,0 +1,340 @@
+/**
+ * Mock document data — sample rows for each mock doctype so the List view and
+ * Form view show realistic content without a backend.
+ *
+ * Each entry mirrors the shape returned by `frappe.desk.reportview.get`
+ * (for lists) and `frappe.client.get` (for a single doc).
+ */
+
+import type { FrappeDoc } from '@/types/frappe';
+
+const now = new Date();
+function daysAgo(n: number): string {
+	const d = new Date(now);
+	d.setDate(d.getDate() - n);
+	return d.toISOString().slice(0, 10);
+}
+function daysAhead(n: number): string {
+	return daysAgo(-n);
+}
+
+// ---------- Customers ----------
+
+export const MOCK_CUSTOMERS: FrappeDoc[] = [
+	{
+		name: 'CUST-001',
+		doctype: 'Customer',
+		customer_name: 'Acme Corporation',
+		customer_group: 'Commercial',
+		territory: 'China',
+		customer_type: 'Company',
+		disabled: 0,
+		email_id: 'contact@acme.example',
+		mobile_no: '+86 138 0000 0001',
+		website: 'https://acme.example',
+		primary_address: '88 Zhongshan Road, Shanghai',
+		default_currency: 'CNY',
+		total_lifetime_value: 1523400.5,
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(2),
+	},
+	{
+		name: 'CUST-002',
+		doctype: 'Customer',
+		customer_name: 'Globex Industries',
+		customer_group: 'Commercial',
+		territory: 'All Territories',
+		customer_type: 'Company',
+		disabled: 0,
+		email_id: 'sales@globex.example',
+		website: 'https://globex.example',
+		default_currency: 'USD',
+		total_lifetime_value: 894000,
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(5),
+	},
+	{
+		name: 'CUST-003',
+		doctype: 'Customer',
+		customer_name: 'Initech LLC',
+		customer_group: 'Individual',
+		territory: 'China',
+		customer_type: 'Individual',
+		disabled: 0,
+		email_id: 'bill@initech.example',
+		default_currency: 'CNY',
+		total_lifetime_value: 34500,
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(8),
+	},
+	{
+		name: 'CUST-004',
+		doctype: 'Customer',
+		customer_name: 'Umbrella Holdings',
+		customer_group: 'Commercial',
+		territory: 'All Territories',
+		customer_type: 'Company',
+		disabled: 1,
+		email_id: 'archive@umbrella.example',
+		default_currency: 'EUR',
+		total_lifetime_value: 0,
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(60),
+	},
+];
+
+// ---------- Items ----------
+
+export const MOCK_ITEMS: FrappeDoc[] = [
+	{
+		name: 'ITEM-001',
+		doctype: 'Item',
+		item_code: 'WIDGET-RED',
+		item_name: 'Red Widget',
+		item_group: 'Finished Goods',
+		stock_uom: 'Nos',
+		disabled: 0,
+		is_stock_item: 1,
+		has_batch_no: 0,
+		has_serial_no: 0,
+		standard_rate: 99.5,
+		is_purchase_item: 1,
+		is_sales_item: 1,
+		description: '<p>Premium <strong>red</strong> widget, v2.</p>',
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(1),
+	},
+	{
+		name: 'ITEM-002',
+		doctype: 'Item',
+		item_code: 'WIDGET-BLUE',
+		item_name: 'Blue Widget',
+		item_group: 'Finished Goods',
+		stock_uom: 'Nos',
+		disabled: 0,
+		is_stock_item: 1,
+		has_batch_no: 1,
+		has_serial_no: 0,
+		standard_rate: 89.0,
+		is_purchase_item: 1,
+		is_sales_item: 1,
+		description: '<p>Economy blue widget.</p>',
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(3),
+	},
+	{
+		name: 'ITEM-003',
+		doctype: 'Item',
+		item_code: 'SERVICE-INSTALL',
+		item_name: 'Installation Service',
+		item_group: 'Services',
+		stock_uom: 'Hour',
+		disabled: 0,
+		is_stock_item: 0,
+		standard_rate: 200,
+		is_purchase_item: 0,
+		is_sales_item: 1,
+		description: '<p>On-site installation by certified engineer.</p>',
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(10),
+	},
+	{
+		name: 'ITEM-004',
+		doctype: 'Item',
+		item_code: 'GADGET-DISCONTINUED',
+		item_name: 'Old Gadget (Discontinued)',
+		item_group: 'Finished Goods',
+		stock_uom: 'Nos',
+		disabled: 1,
+		is_stock_item: 1,
+		standard_rate: 49.99,
+		is_purchase_item: 0,
+		is_sales_item: 0,
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(120),
+	},
+];
+
+// ---------- ToDos ----------
+
+export const MOCK_TODOS: FrappeDoc[] = [
+	{
+		name: 'TODO-00001',
+		doctype: 'ToDo',
+		status: 'Open',
+		priority: 'High',
+		description: '<p>Approve Q3 sales invoices</p>',
+		date: daysAhead(2),
+		allocated_to: 'admin@demo.com',
+		reference_type: 'Sales Invoice',
+		reference_name: 'ACC-SINV-2026-0001',
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(1),
+	},
+	{
+		name: 'TODO-00002',
+		doctype: 'ToDo',
+		status: 'Open',
+		priority: 'Medium',
+		description: '<p>Follow up with Globex on payment</p>',
+		date: daysAgo(3),
+		allocated_to: 'admin@demo.com',
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(4),
+	},
+	{
+		name: 'TODO-00003',
+		doctype: 'ToDo',
+		status: 'Closed',
+		priority: 'Low',
+		description: '<p>Update item prices for Q4</p>',
+		date: daysAgo(7),
+		allocated_to: 'admin@demo.com',
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(6),
+	},
+	{
+		name: 'TODO-00004',
+		doctype: 'ToDo',
+		status: 'Open',
+		priority: 'High',
+		description: '<p>Reconcile bank statement for last month</p>',
+		date: daysAhead(1),
+		allocated_to: 'admin@demo.com',
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(0),
+	},
+];
+
+// ---------- Sales Invoices ----------
+
+export const MOCK_SALES_INVOICES: FrappeDoc[] = [
+	{
+		name: 'ACC-SINV-2026-0001',
+		doctype: 'Sales Invoice',
+		naming_series: 'ACC-SINV-.YYYY.-',
+		customer: 'CUST-001',
+		customer_name: 'Acme Corporation',
+		posting_date: daysAgo(10),
+		due_date: daysAhead(5),
+		company: 'Demo Company',
+		is_pos: 0,
+		is_return: 0,
+		currency: 'CNY',
+		selling_price_list: 'Standard Selling',
+		items: [
+			{ name: 'row-1', doctype: 'Sales Invoice Item', parent: 'ACC-SINV-2026-0001', parenttype: 'Sales Invoice', parentfield: 'items', item_code: 'ITEM-001', item_name: 'Red Widget', qty: 10, rate: 99.5, amount: 995 },
+			{ name: 'row-2', doctype: 'Sales Invoice Item', parent: 'ACC-SINV-2026-0001', parenttype: 'Sales Invoice', parentfield: 'items', item_code: 'ITEM-003', item_name: 'Installation Service', qty: 4, rate: 200, amount: 800 },
+		],
+		base_total: 1795,
+		base_grand_total: 2032.35,
+		outstanding_amount: 2032.35,
+		status: 'Unpaid',
+		docstatus: 1,
+		owner: 'admin@demo.com',
+		modified: daysAgo(10),
+	},
+	{
+		name: 'ACC-SINV-2026-0002',
+		doctype: 'Sales Invoice',
+		naming_series: 'ACC-SINV-.YYYY.-',
+		customer: 'CUST-002',
+		customer_name: 'Globex Industries',
+		posting_date: daysAgo(20),
+		due_date: daysAgo(5),
+		company: 'Demo Company',
+		is_pos: 0,
+		is_return: 0,
+		currency: 'USD',
+		selling_price_list: 'Standard Selling',
+		items: [
+			{ name: 'row-1', doctype: 'Sales Invoice Item', parent: 'ACC-SINV-2026-0002', parenttype: 'Sales Invoice', parentfield: 'items', item_code: 'ITEM-002', item_name: 'Blue Widget', qty: 50, rate: 89, amount: 4450 },
+		],
+		base_total: 4450,
+		base_grand_total: 5029.5,
+		outstanding_amount: 0,
+		status: 'Paid',
+		docstatus: 1,
+		owner: 'admin@demo.com',
+		modified: daysAgo(18),
+	},
+	{
+		name: 'ACC-SINV-2026-0003',
+		doctype: 'Sales Invoice',
+		naming_series: 'ACC-SINV-.YYYY.-',
+		customer: 'CUST-003',
+		customer_name: 'Initech LLC',
+		posting_date: daysAgo(35),
+		due_date: daysAgo(20),
+		company: 'Demo Company',
+		is_pos: 0,
+		is_return: 0,
+		currency: 'CNY',
+		selling_price_list: 'Standard Selling',
+		items: [
+			{ name: 'row-1', doctype: 'Sales Invoice Item', parent: 'ACC-SINV-2026-0003', parenttype: 'Sales Invoice', parentfield: 'items', item_code: 'ITEM-001', item_name: 'Red Widget', qty: 2, rate: 99.5, amount: 199 },
+		],
+		base_total: 199,
+		base_grand_total: 224.87,
+		outstanding_amount: 224.87,
+		status: 'Overdue',
+		docstatus: 1,
+		owner: 'admin@demo.com',
+		modified: daysAgo(35),
+	},
+	{
+		name: 'ACC-SINV-2026-0004',
+		doctype: 'Sales Invoice',
+		naming_series: 'ACC-SINV-.YYYY.-',
+		customer: 'CUST-001',
+		customer_name: 'Acme Corporation',
+		posting_date: daysAgo(1),
+		due_date: daysAhead(14),
+		company: 'Demo Company',
+		is_pos: 0,
+		is_return: 0,
+		currency: 'CNY',
+		selling_price_list: 'Standard Selling',
+		items: [],
+		base_total: 0,
+		base_grand_total: 0,
+		outstanding_amount: 0,
+		status: 'Draft',
+		docstatus: 0,
+		owner: 'admin@demo.com',
+		modified: daysAgo(1),
+	},
+];
+
+// ---------- Accounts (tree) ----------
+
+export const MOCK_ACCOUNTS: FrappeDoc[] = [
+	{ name: 'Assets', doctype: 'Account', account_name: 'Assets', parent_account: '', is_group: 1, account_type: '', root_type: 'Asset', balance: 0 },
+	{ name: 'Cash', doctype: 'Account', account_name: 'Cash', parent_account: 'Assets', is_group: 1, account_type: 'Cash', root_type: 'Asset', balance: 250000 },
+	{ name: 'Bank', doctype: 'Account', account_name: 'Bank', parent_account: 'Assets', is_group: 1, account_type: 'Bank', root_type: 'Asset', balance: 1200000 },
+	{ name: 'Receivables', doctype: 'Account', account_name: 'Accounts Receivable', parent_account: 'Assets', is_group: 1, account_type: 'Receivable', root_type: 'Asset', balance: 45000 },
+	{ name: 'Liabilities', doctype: 'Account', account_name: 'Liabilities', parent_account: '', is_group: 1, account_type: '', root_type: 'Liability', balance: 0 },
+	{ name: 'Payables', doctype: 'Account', account_name: 'Accounts Payable', parent_account: 'Liabilities', is_group: 1, account_type: 'Payable', root_type: 'Liability', balance: 32000 },
+	{ name: 'Income', doctype: 'Account', account_name: 'Income', parent_account: '', is_group: 1, account_type: 'Income Account', root_type: 'Income', balance: 530000 },
+];
+
+/** Lookup table: doctype → sample rows. */
+export const MOCK_DOCS: Record<string, FrappeDoc[]> = {
+	Customer: MOCK_CUSTOMERS,
+	Item: MOCK_ITEMS,
+	ToDo: MOCK_TODOS,
+	'Sales Invoice': MOCK_SALES_INVOICES,
+	Account: MOCK_ACCOUNTS,
+};

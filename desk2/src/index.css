@@ -1,0 +1,47 @@
+/*
+ * Global styles for the Desk v2 SPA.
+ *
+ * antd v5 is CSS-in-JS by default, so we keep this file minimal: a reset, the
+ * #root sizing, and a few small tweaks that play well with ProLayout.
+ */
+
+:root {
+	color-scheme: light dark;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+		sans-serif;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+#root {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Make ProLayout fill the viewport. */
+.ant-pro-layout {
+	min-height: 100vh;
+}

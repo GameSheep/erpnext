@@ -122,6 +122,10 @@ website_context = {
 
 # nosemgrep
 website_route_rules = [
+	# Desk v2 React SPA — both the index and any deep link must resolve to the
+	# same www/desk2.html so client-side routing owns the URL space.
+	{"from_route": "/desk2", "to_route": "desk2"},
+	{"from_route": "/desk2/<path:app>", "to_route": "desk2"},
 	{"from_route": "/orders", "to_route": "Sales Order"},
 	{
 		"from_route": "/orders/<path:name>",
