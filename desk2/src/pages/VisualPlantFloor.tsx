@@ -82,13 +82,13 @@ export function VisualPlantFloor() {
 							{stations.map((ws) => (
 								<Col key={ws.name} xs={24} sm={12} md={8} lg={6}>
 									<Tooltip title={
-										<div>
-											<Text strong>{ws.workstation_name}</Text><br />
-											<Text>Area: {ws.area}</Text><br />
-											{ws.current_operation && <Text>Op: {ws.current_operation}</Text>}<br />
-											{ws.current_job && <Text>Job: {ws.current_job}</Text>}<br />
+										<Space direction="vertical" size={2}>
+											<Text strong>{ws.workstation_name}</Text>
+											<Text>Area: {ws.area}</Text>
+											{ws.current_operation && <Text>Op: {ws.current_operation}</Text>}
+											{ws.current_job && <Text>Job: {ws.current_job}</Text>}
 											<Text>Utilization: {ws.utilization}%</Text>
-										</div>
+										</Space>
 									}>
 										<Card
 											size="small"

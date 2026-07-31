@@ -118,13 +118,14 @@ export function BankReconciliation() {
 							/>
 						</Col>
 						<Col span={12}>
-							<Text strong>Date Range</Text>
-							<br />
-							<DatePicker.RangePicker
-								style={{ marginTop: 4 }}
-								value={range}
-								onChange={(r) => r && setRange(r as [dayjs.Dayjs, dayjs.Dayjs])}
-							/>
+							<Space direction="vertical" size={0} style={{ width: '100%' }}>
+								<Text strong>Date Range</Text>
+								<DatePicker.RangePicker
+									style={{ width: '100%' }}
+									value={range}
+									onChange={(r) => r && setRange(r as [dayjs.Dayjs, dayjs.Dayjs])}
+								/>
+							</Space>
 						</Col>
 						<Col span={4} style={{ textAlign: 'right' }}>
 							<Statistic title="Unreconciled" value={formatCurrency(totalUnreconciled)} />

@@ -103,9 +103,10 @@ export function ItemCart({
 			<div style={{ flex: 1, overflowY: 'auto' }}>
 				{lines.length === 0 ? (
 					<div style={{ textAlign: 'center', padding: 40, color: '#999' }}>
-						<ShoppingCartOutlined style={{ fontSize: 32 }} />
-						<br />
-						Click items to add to cart
+						<Space direction="vertical" align="center">
+							<ShoppingCartOutlined style={{ fontSize: 32 }} />
+							<Text type="secondary">Click items to add to cart</Text>
+						</Space>
 					</div>
 				) : (
 					<List

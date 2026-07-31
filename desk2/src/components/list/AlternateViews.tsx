@@ -116,16 +116,24 @@ export function CalendarView({ meta, docs }: KanbanViewProps) {
 		const items = byDate.get(key);
 		if (!items || items.length === 0) return null;
 		return (
-			<ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-				{items.slice(0, 3).map((doc) => (
-					<li key={doc.name} style={{ fontSize: 11, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-						<Link to={`/desk2/form/${slug(meta.name)}/${encodeURIComponent(doc.name)}`}>
-							{String(doc[titleField] ?? doc.name)}
-						</Link>
-					</li>
-				))}
-				{items.length > 3 && <li style={{ fontSize: 11, color: '#999' }}>+{items.length - 3} more</li>}
-			</ul>
+			<List
+				size="small"
+				split={false}
+				dataSource={[...items.slice(0, 3), ...(items.length > 3 ? [`__more_${items.length - 3}`] : [])]}
+				renderItem={(item) =>
+					typeof item === 'string' ? (
+						<List.Item style={{ padding: '2px 0', border: 'none' }}>
+							<Text type="secondary" style={{ fontSize: 11 }}>{item.replace('__more_', '+') } more</Text>
+						</List.Item>
+					) : (
+						<List.Item style={{ padding: '2px 0', border: 'none' }}>
+							<Link to={`/desk2/form/${slug(meta.name)}/${encodeURIComponent(item.name)}`} style={{ fontSize: 11, display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+								{String(item[titleField] ?? item.name)}
+							</Link>
+						</List.Item>
+					)
+				}
+			/>
 		);
 	};
 

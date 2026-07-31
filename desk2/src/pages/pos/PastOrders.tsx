@@ -5,7 +5,7 @@
  * Stage-1 ships a read-only list; clicking opens the invoice in a new tab.
  */
 
-import { Card, Col, Empty, List, Row, Segmented, Space, Statistic, Table, Tag, Typography } from 'antd';
+import { Card, Col, Empty, Input, List, Row, Segmented, Space, Statistic, Table, Tag, Typography } from 'antd';
 import { Link } from 'react-router';
 import { useMemo, useState } from 'react';
 
@@ -42,11 +42,12 @@ export function PastOrders({ onSelect }: PastOrdersProps) {
 
 			<Card>
 				<Space style={{ marginBottom: 12, width: '100%', justifyContent: 'space-between' }}>
-					<input
+					<Input.Search
 						placeholder="Search invoice # or customer…"
 						value={search}
-						onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
-						style={{ padding: '6px 10px', border: '1px solid #d9d9d9', borderRadius: 6, width: 280 }}
+						onChange={(e) => setSearch(e.target.value)}
+						style={{ width: 280 }}
+						allowClear
 					/>
 					<Segmented
 						value={status}

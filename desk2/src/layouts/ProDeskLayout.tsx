@@ -97,11 +97,10 @@ export function ProDeskLayout({ outletWrapper }: ProDeskLayoutProps) {
 			key: 'header',
 			disabled: true,
 			label: (
-				<div style={{ padding: '4px 0' }}>
+				<Space direction="vertical" size={0} style={{ padding: '4px 0' }}>
 					<Text strong>{userName}</Text>
-					<br />
 					<Text type="secondary" style={{ fontSize: 12 }}>{boot?.user?.email}</Text>
-				</div>
+				</Space>
 			),
 		},
 		{ type: 'divider' },

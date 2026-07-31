@@ -73,17 +73,17 @@ export function ShopFloor() {
 							) : (
 								<List
 									dataSource={byStatus[status] ?? []}
-									renderItem={(j) => (
-										<Link to={`/desk2/form/Job%20Card/${encodeURIComponent(j.name)}`}>
-											<Card size="small" hoverable style={{ marginBottom: 8 }}>
-												<Text strong>{j.operation}</Text>
-												<br />
-												<Text type="secondary">{j.work_order} · {j.workstation}</Text>
-												<br />
-												<Text type="secondary">{j.total_completed_qty} / {j.qty_to_manufacture} qty</Text>
-											</Card>
-										</Link>
-									)}
+										renderItem={(j) => (
+											<Link to={`/desk2/form/Job%20Card/${encodeURIComponent(j.name)}`}>
+												<Card size="small" hoverable style={{ marginBottom: 8 }}>
+													<Space direction="vertical" size={2}>
+														<Text strong>{j.operation}</Text>
+														<Text type="secondary">{j.work_order} · {j.workstation}</Text>
+														<Text type="secondary">{j.total_completed_qty} / {j.qty_to_manufacture} qty</Text>
+													</Space>
+												</Card>
+											</Link>
+										)}
 								/>
 							)}
 						</Card>
