@@ -1,18 +1,30 @@
 /*
  * Global styles for the Desk v2 SPA.
  *
- * antd v5 is CSS-in-JS by default, so we keep this file minimal: a reset, the
- * #root sizing, and a few small tweaks that play well with ProLayout.
+ * antd v5 is CSS-in-JS by default; this file adds the layer antd can't reach:
+ *  - font loading hint (Inter via system fallback)
+ *  - refined scrollbars
+ *  - ProLayout sidebar gradient + brand polish
+ *  - card hover lift, table focus states, link transitions
+ *  - selection color
+ *
+ * Everything here complements the tokens in src/theme.ts.
  */
 
 :root {
 	color-scheme: light dark;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-		sans-serif;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	/* Brand accent for non-antd surfaces. */
+	--brand-primary: #2f54eb;
+	--brand-accent: #e74c3c;
+	--brand-sider-start: #001529;
+	--brand-sider-end: #022b4e;
 }
 
 *,
@@ -30,6 +42,10 @@ body,
 	width: 100%;
 }
 
+body {
+	background: #f5f7fa;
+}
+
 #root {
 	min-height: 100vh;
 	display: flex;
@@ -37,11 +53,178 @@ body,
 }
 
 a {
-	color: inherit;
+	color: var(--brand-primary);
 	text-decoration: none;
+	transition: color 0.15s ease;
+}
+a:hover {
+	color: #1d39c4;
 }
 
-/* Make ProLayout fill the viewport. */
+::selection {
+	background: rgba(47, 84, 235, 0.15);
+	color: inherit;
+}
+
+/* ---------- Refined scrollbars (enterprise feel) ---------- */
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+*::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+*::-webkit-scrollbar-track {
+	background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.16);
+	border-radius: 8px;
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0, 0, 0, 0.28);
+	background-clip: content-box;
+}
+
+/* ---------- ProLayout sidebar: deep navy gradient ---------- */
+
 .ant-pro-layout {
 	min-height: 100vh;
+}
+
+.ant-pro-sider {
+	background: linear-gradient(180deg, var(--brand-sider-start) 0%, var(--brand-sider-end) 100%) !important;
+	box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Sider logo area polish */
+.ant-pro-sider-logo {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+	padding: 16px 16px !important;
+}
+.ant-pro-sider-logo h1 {
+	color: #ffffff !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.2px;
+}
+
+/* Sider menu items: taller, more breathing room */
+.ant-pro-sider .ant-menu {
+	background: transparent !important;
+	border-inline-end: none !important;
+}
+.ant-pro-sider .ant-menu-item,
+.ant-pro-sider .ant-menu-submenu-title {
+	margin-inline: 8px !important;
+	border-radius: 8px !important;
+	height: 40px !important;
+	line-height: 40px !important;
+	transition: all 0.15s ease !important;
+}
+
+/* ---------- Header polish ---------- */
+
+.ant-pro-top-nav-header {
+	background: #ffffff !important;
+	border-bottom: 1px solid #e5e7eb !important;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* ---------- Card hover lift ---------- */
+
+.ant-card-hoverable {
+	transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+.ant-card-hoverable:hover {
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+	transform: translateY(-1px);
+}
+
+/* ---------- Table header / row polish ---------- */
+
+.ant-table-thead > tr > th {
+	font-weight: 600 !important;
+	letter-spacing: 0.1px;
+	text-transform: none;
+}
+.ant-table-tbody > tr {
+	transition: background 0.12s ease;
+}
+
+/* ---------- Buttons: subtle weight ---------- */
+
+.ant-btn {
+	font-weight: 500;
+	transition: all 0.15s ease !important;
+}
+.ant-btn-primary {
+	box-shadow: 0 2px 4px rgba(47, 84, 235, 0.18);
+}
+.ant-btn-primary:hover {
+	box-shadow: 0 4px 8px rgba(47, 84, 235, 0.26);
+}
+
+/* ---------- Tag refinement ---------- */
+
+.ant-tag {
+	font-weight: 500;
+	letter-spacing: 0.1px;
+}
+
+/* ---------- Statistic: tighter numeric typography ---------- */
+
+.ant-statistic-content-value {
+	letter-spacing: -0.3px;
+}
+
+/* ---------- Breadcrumb: lighter ---------- */
+
+.ant-breadcrumb {
+	font-size: 13px;
+}
+
+/* ---------- Tabs: cleaner ink bar ---------- */
+
+.ant-tabs-top > .ant-tabs-nav::before {
+	border-bottom-color: #e5e7eb !important;
+}
+.ant-tabs-tab {
+	font-weight: 500 !important;
+	transition: color 0.15s ease !important;
+}
+
+/* ---------- PageContainer inner card: remove double border ---------- */
+
+.ant-pro-page-container-children-content {
+	padding: 0 !important;
+}
+
+/* ---------- Dark mode tweaks ---------- */
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background: #0f1419;
+	}
+	::selection {
+		background: rgba(64, 150, 255, 0.25);
+	}
+	* {
+		scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+	}
+	*::-webkit-scrollbar-thumb {
+		background-color: rgba(255, 255, 255, 0.16);
+	}
+}
+
+/* ---------- Loading skeleton shimmer ---------- */
+
+.ant-skeleton-active .ant-skeleton-paragraph > li,
+.ant-skeleton-active .ant-skeleton-title,
+.ant-skeleton-active .ant-skeleton-avatar {
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.08) 37%, rgba(0, 0, 0, 0.04) 63%) !important;
+	background-size: 400% 100% !important;
 }

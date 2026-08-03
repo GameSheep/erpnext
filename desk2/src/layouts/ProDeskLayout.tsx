@@ -201,9 +201,9 @@ export function ProDeskLayout({ outletWrapper }: ProDeskLayoutProps) {
 					</Tooltip>,
 					<NotificationsBell key="notifications" />,
 					<Dropdown key="user" menu={{ items: userMenu }} placement="bottomRight" trigger={['click']}>
-						<Space style={{ cursor: 'pointer', padding: '0 8px' }}>
-							<Avatar size="small" icon={<UserOutlined />} style={{ background: '#e74c3c' }} />
-							<span style={{ fontSize: 13, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{userName}</span>
+						<Space style={{ cursor: 'pointer', padding: '4px 10px', borderRadius: 8, transition: 'background 0.15s ease' }} className="user-menu-trigger">
+							<Avatar size={28} icon={<UserOutlined />} style={{ background: 'linear-gradient(135deg, #2f54eb 0%, #1d39c4 100%)', fontSize: 13 }} />
+							<span style={{ fontSize: 13, fontWeight: 500, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{userName}</span>
 						</Space>
 					</Dropdown>,
 				]}
@@ -240,8 +240,17 @@ async function switchTheme(theme: 'Light' | 'Dark') {
 function Logo() {
 	return (
 		<span style={{
-			display: 'inline-block', width: 28, height: 28, borderRadius: 6,
-			background: '#e74c3c', color: '#fff', textAlign: 'center', lineHeight: '28px', fontWeight: 700,
+			display: 'inline-flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			width: 30,
+			height: 30,
+			borderRadius: 8,
+			background: 'linear-gradient(135deg, #2f54eb 0%, #1d39c4 100%)',
+			color: '#fff',
+			fontWeight: 700,
+			fontSize: 16,
+			boxShadow: '0 2px 6px rgba(47, 84, 235, 0.35)',
 		}}>E</span>
 	);
 }

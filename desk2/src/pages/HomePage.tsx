@@ -11,7 +11,7 @@
  * All data comes from real Frappe endpoints via SWR (with mock fallbacks).
  */
 
-import { Card, Col, Empty, List, Row, Skeleton, Space, Statistic, Tag, Typography } from 'antd';
+import { Card, Col, Empty, List, Row, Skeleton, Space, Tag, Typography } from 'antd';
 import {
 	FileTextOutlined,
 	PlusOutlined,
@@ -94,14 +94,51 @@ export function HomePage() {
 	const invoices = invoicesQ.data?.message ?? MOCK_INVOICES;
 
 	return (
-		<Space direction="vertical" size="middle" style={{ width: '100%' }}>
-			{/* Greeting */}
-			<div>
-				<Title level={3} style={{ marginBottom: 0 }}>
-					{greeting}, {userName} 👋
-				</Title>
-				<Text type="secondary">{formatDate(new Date())} · {boot?.sitename}</Text>
-			</div>
+		<Space direction="vertical" size={20} style={{ width: '100%' }}>
+			{/* Hero greeting banner */}
+			<Card
+				bordered={false}
+				style={{
+					background: 'linear-gradient(135deg, #2f54eb 0%, #1d39c4 100%)',
+					borderRadius: 12,
+					color: '#fff',
+				}}
+				bodyStyle={{ padding: '24px 28px' }}
+			>
+				<Space direction="vertical" size={2}>
+					<Title level={3} style={{ color: '#fff', margin: 0, fontWeight: 600 }}>
+						{greeting}, {userName}
+					</Title>
+					<Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: 13 }}>
+						{formatDate(new Date())} · {boot?.sitename} · Here's your business at a glance
+					</Text>
+				</Space>
+			</Card>
+
+			{/* KPI cards */}
+			<Row gutter={[16, 16]}>
+				<KpiCard
+					title="My Open ToDos"
+					value={openTodoCount}
+					icon={<TeamOutlined />}
+					color={openTodoCount > 0 ? '#faad14' : '#52c41a'}
+					to="/desk2/list/ToDo"
+				/>
+				<KpiCard
+					title="Unpaid Invoices"
+					value={openInvoiceCount}
+					icon={<FileTextOutlined />}
+					color={openInvoiceCount > 0 ? '#ff4d4f' : '#52c41a'}
+					to="/desk2/list/Sales%20Invoice"
+				/>
+				<KpiCard
+					title="Customers"
+					value={boot?.customer_count ?? 0}
+					icon={<UserOutlined />}
+					color="#2f54eb"
+					to="/desk2/list/Customer"
+				/>
+			</Row>
 
 			{/* Quick actions */}
 			<Row gutter={[12, 12]}>
@@ -111,38 +148,23 @@ export function HomePage() {
 							hoverable
 							size="small"
 							onClick={() => navigate(qa.route ?? `/desk2/form/${slug(qa.doctype)}/new-${slug(qa.doctype)}-1`)}
-							bodyStyle={{ textAlign: 'center', padding: '16px 8px' }}
+							bodyStyle={{ padding: '14px 12px' }}
 						>
-							<div style={{ fontSize: 24, color: qa.color, marginBottom: 4 }}>{qa.icon}</div>
-							<Text strong>{qa.label}</Text>
+							<Space align="center" size={12}>
+								<div style={{
+									width: 36, height: 36, borderRadius: 8,
+									background: `${qa.color}15`,
+									color: qa.color,
+									display: 'flex', alignItems: 'center', justifyContent: 'center',
+									fontSize: 18,
+								}}>
+									{qa.icon}
+								</div>
+								<Text strong style={{ fontSize: 13 }}>{qa.label}</Text>
+							</Space>
 						</Card>
 					</Col>
 				))}
-			</Row>
-
-			{/* Notification stats */}
-			<Row gutter={[12, 12]}>
-				<Col xs={24} sm={8}>
-					<Link to="/desk2/list/ToDo">
-						<Card hoverable size="small">
-							<Statistic title="My Open ToDos" value={openTodoCount} valueStyle={{ color: openTodoCount > 0 ? '#faad14' : '#52c41a' }} />
-						</Card>
-					</Link>
-				</Col>
-				<Col xs={24} sm={8}>
-					<Link to="/desk2/list/Sales%20Invoice">
-						<Card hoverable size="small">
-							<Statistic title="Unpaid Invoices" value={openInvoiceCount} valueStyle={{ color: openInvoiceCount > 0 ? '#ff4d4f' : '#52c41a' }} />
-						</Card>
-					</Link>
-				</Col>
-				<Col xs={24} sm={8}>
-					<Link to="/desk2/list/Customer">
-						<Card hoverable size="small">
-							<Statistic title="Customers" value={boot?.customer_count ?? 0} />
-						</Card>
-					</Link>
-				</Col>
 			</Row>
 
 			{/* Lists */}
@@ -150,9 +172,10 @@ export function HomePage() {
 				{/* My ToDos */}
 				<Col xs={24} lg={12}>
 					<Card
-						size="small"
-						title={<Space><TeamOutlined /> My Open ToDos</Space>}
-						extra={<Link to="/desk2/list/ToDo">View all</Link>}
+						bordered={false}
+						style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+						title={<Space><TeamOutlined style={{ color: '#2f54eb' }} /> My Open ToDos</Space>}
+						extra={<Link to="/desk2/list/ToDo">View all →</Link>}
 					>
 						{todosQ.isLoading ? (
 							<Skeleton active paragraph={{ rows: 3 }} />
@@ -163,14 +186,14 @@ export function HomePage() {
 								size="small"
 								dataSource={todos}
 								renderItem={(t) => (
-									<List.Item style={{ padding: '6px 0' }}>
+									<List.Item style={{ padding: '10px 0', borderBottom: '1px solid #f5f5f5' }}>
 										<Link to={`/desk2/form/ToDo/${encodeURIComponent(t.name)}`} style={{ flex: 1, overflow: 'hidden' }}>
-											<Space direction="vertical" size={0} style={{ width: '100%' }}>
-												<Text ellipsis style={{ display: 'block' }}>
+											<Space direction="vertical" size={2} style={{ width: '100%' }}>
+												<Text ellipsis style={{ display: 'block', fontWeight: 500 }}>
 													{stripHtml(t.description ?? t.name)}
 												</Text>
 												<Space size={8}>
-													{t.priority && <Tag color={t.priority === 'High' ? 'red' : t.priority === 'Medium' ? 'orange' : 'blue'} style={{ fontSize: 11 }}>{t.priority}</Tag>}
+													{t.priority && <Tag color={t.priority === 'High' ? 'red' : t.priority === 'Medium' ? 'orange' : 'blue'} style={{ fontSize: 11, margin: 0 }}>{t.priority}</Tag>}
 													{t.date && <Text type="secondary" style={{ fontSize: 11 }}>{formatDate(t.date)}</Text>}
 												</Space>
 											</Space>
@@ -185,9 +208,10 @@ export function HomePage() {
 				{/* Recent invoices */}
 				<Col xs={24} lg={12}>
 					<Card
-						size="small"
-						title={<Space><FileTextOutlined /> Recent Sales Invoices</Space>}
-						extra={<Link to="/desk2/list/Sales%20Invoice">View all</Link>}
+						bordered={false}
+						style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+						title={<Space><FileTextOutlined style={{ color: '#2f54eb' }} /> Recent Sales Invoices</Space>}
+						extra={<Link to="/desk2/list/Sales%20Invoice">View all →</Link>}
 					>
 						{invoicesQ.isLoading ? (
 							<Skeleton active paragraph={{ rows: 3 }} />
@@ -198,17 +222,17 @@ export function HomePage() {
 								size="small"
 								dataSource={invoices}
 								renderItem={(inv) => (
-									<List.Item style={{ padding: '6px 0' }}>
+									<List.Item style={{ padding: '10px 0', borderBottom: '1px solid #f5f5f5' }}>
 										<Link to={`/desk2/form/Sales%20Invoice/${encodeURIComponent(inv.name)}`} style={{ flex: 1 }}>
 											<Space style={{ width: '100%', justifyContent: 'space-between' }}>
-												<Space direction="vertical" size={0}>
+												<Space direction="vertical" size={2}>
 													<Text strong>{inv.name}</Text>
 													<Text type="secondary" style={{ fontSize: 12 }}>{inv.customer_name ?? inv.customer}</Text>
 												</Space>
-												<Space direction="vertical" size={0} align="end">
-													{inv.grand_total != null && <Text strong>{formatCurrency(inv.grand_total)}</Text>}
+												<Space direction="vertical" size={2} align="end">
+													{inv.grand_total != null && <Text strong style={{ color: '#1f2937' }}>{formatCurrency(inv.grand_total)}</Text>}
 													{inv.status && (
-														<Tag color={statusColor(inv.status)} style={{ fontSize: 11 }}>{inv.status}</Tag>
+														<Tag color={statusColor(inv.status)} style={{ fontSize: 11, margin: 0 }}>{inv.status}</Tag>
 													)}
 												</Space>
 											</Space>
@@ -221,6 +245,33 @@ export function HomePage() {
 				</Col>
 			</Row>
 		</Space>
+	);
+}
+
+/** Polished KPI card: icon chip + large value + clickable hover lift. */
+function KpiCard({ title, value, icon, color, to }: { title: string; value: number; icon: React.ReactNode; color: string; to: string }) {
+	return (
+		<Col xs={24} sm={8}>
+			<Link to={to}>
+				<Card hoverable bordered={false} style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+					<Space align="center" size={16}>
+						<div style={{
+							width: 48, height: 48, borderRadius: 12,
+							background: `${color}15`,
+							color,
+							display: 'flex', alignItems: 'center', justifyContent: 'center',
+							fontSize: 22,
+						}}>
+							{icon}
+						</div>
+						<div>
+							<Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 2 }}>{title}</Text>
+							<Text strong style={{ fontSize: 26, color: '#1f2937', letterSpacing: '-0.5px' }}>{value}</Text>
+						</div>
+					</Space>
+				</Card>
+			</Link>
+		</Col>
 	);
 }
 

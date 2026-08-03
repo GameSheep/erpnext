@@ -8,6 +8,7 @@ import './index.css';
 import App from './App';
 import { getBoot } from '@/lib/frappe';
 import { MOCK_BOOT } from './mock/boot';
+import { lightTheme, darkTheme } from './theme';
 
 /** Pick the antd locale pack matching the user's Frappe language. */
 function pickLocale(lang: string | undefined) {
@@ -20,15 +21,16 @@ function pickLocale(lang: string | undefined) {
 
 /**
  * Decide the initial theme from `frappe.boot.desk_theme` (Light/Dark/Automatic).
- * For "Automatic" we defer to the OS preference via `prefers-color-scheme`.
+ * Returns the full ThemeConfig (with algorithm merged in).
  */
-function pickAlgorithm() {
+function pickTheme() {
 	const deskTheme = getBoot()?.desk_theme;
 	const prefersDark =
 		typeof window !== 'undefined' &&
 		window.matchMedia?.('(prefers-color-scheme: dark)').matches;
 	const isDark = deskTheme === 'Dark' || (deskTheme !== 'Light' && prefersDark);
-	return isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm;
+	const base = isDark ? darkTheme : lightTheme;
+	return { isDark, config: { ...base, algorithm: isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm } };
 }
 
 async function tryDevBootFromBench(): Promise<boolean> {
@@ -86,14 +88,7 @@ async function bootstrap() {
 		<StrictMode>
 			<ConfigProvider
 				locale={pickLocale(getBoot()?.lang)}
-				theme={{
-					algorithm: pickAlgorithm(),
-					token: {
-						// Align with Frappe's ERPNext brand red (#e74c3c from hooks.py app_color).
-						colorPrimary: '#e74c3c',
-						borderRadius: 6,
-					},
-				}}
+				theme={pickTheme().config}
 			>
 				<AntdApp>
 					<App />
